@@ -37,8 +37,10 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 ---
 
 ## 🛠️ 架构原理 (Architecture)
+<img width="1253" height="1016" alt="image" src="https://github.com/user-attachments/assets/1e223a90-7008-4ae1-aeae-cd6b3ebf2943" />
 
-1.  **流量劫持**：用户将浏览器或下载器的代理指向 NetBouncer (默认 `127.0.0.1:8088`)。
+
+1.  **流量劫持**：用户将浏览器或下载器的代理指向 NetBouncer (默认 `127.0.0.1:10808`)。
 2.  **探测 (Probe)**：代理服务器拦截请求，先发起一次轻量级的 `HEAD` 或小字节 `GET` 请求。
 3.  **决策 (Strategy)**：
     * 如果文件较小 (<10MB) -> 使用当前延迟最低的网卡直连。
@@ -88,5 +90,6 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 * 本项目仅供学习和研究网络编程、并发控制及代理技术测试使用。请勿用于非法用途。开发者不对因使用本软件产生的任何数据丢失或网络问题负责。
 
 ---
+
 
 Copyright © 2025. All Rights Reserved.
