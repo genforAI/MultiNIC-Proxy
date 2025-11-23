@@ -40,6 +40,32 @@ Unlike traditional "NIC Bonding" software, NetBouncer requires **no virtual driv
 
 ---
 
+<h2>🎥 Demos</h2>
+<table>
+  <tr>
+    <td width="50%">
+      <div align="center"><b>1. Single NIC - Direct Download</b></div>
+      <img src="https://github.com/user-attachments/assets/06967c8b-5c74-42a6-a7de-bcd0b8b266a9" width="100%"/>
+    </td>
+    <td width="50%">
+      <div align="center"><b>2. Single NIC - Proxy Strategy</b></div>
+      <img src="https://github.com/user-attachments/assets/4cac5586-d25f-430a-97ea-3fc43558ff15" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <div align="center"><b>3. Multi-NIC - Direct Download</b></div>
+      <img src="https://github.com/user-attachments/assets/6d27675f-25a1-441e-8db2-7b7dd44d61eb" width="100%"/>
+    </td>
+    <td width="50%">
+      <div align="center"><b>4. Multi-NIC - Proxy Strategy</b></div>
+      <img src="https://github.com/user-attachments/assets/98cafaea-4613-473a-aff8-23a190d7d163" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🛠️ Architecture
 
 <img width="900" height="750" alt="NetBouncer Architecture" src="https://github.com/user-attachments/assets/1e223a90-7008-4ae1-aeae-cd6b3ebf2943" />
@@ -98,4 +124,5 @@ Unlike traditional "NIC Bonding" software, NetBouncer requires **no virtual driv
 ---
 
 Copyright © 2025. All Rights Reserved.
+
 
