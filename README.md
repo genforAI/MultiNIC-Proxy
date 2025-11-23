@@ -37,7 +37,7 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 ---
 
 ## 🛠️ 架构原理 (Architecture)
-<img width="1253" height="1016" alt="image" src="https://github.com/user-attachments/assets/1e223a90-7008-4ae1-aeae-cd6b3ebf2943" />
+<img width="900" height="750" alt="image" src="https://github.com/user-attachments/assets/1e223a90-7008-4ae1-aeae-cd6b3ebf2943" />
 
 
 1.  **流量劫持**：用户将浏览器或下载器的代理指向 NetBouncer (默认 `127.0.0.1:10808`)。
@@ -93,3 +93,4 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 
 
 Copyright © 2025. All Rights Reserved.
+
