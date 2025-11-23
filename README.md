@@ -1,5 +1,5 @@
-[🇨🇳 中文文档](./README_CN.md)
 [![Go Report Card](https://goreportcard.com/badge/github.com/genforai/multinic-proxy)](https://goreportcard.com/report/github.com/genforai/multinic-proxy)
+[🇨🇳 中文文档](./README_CN.md)
 
 # NetBouncer (Multi-NIC High-Performance Proxy)
 
