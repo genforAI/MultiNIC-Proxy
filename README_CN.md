@@ -1,4 +1,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/genforai/multinic-proxy)](https://goreportcard.com/report/github.com/genforai/multinic-proxy)
+
+[EN English Document](./README.md)
 # NetBouncer (Multi-NIC High-Performance Proxy)
 
 🚀 **基于 Go 语言开发的轻量级双网卡聚合下载加速代理工具（仅用于测试，在正常作为代理使用时存在部分bug未作调整）**
@@ -88,5 +90,6 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 * 本项目仅供学习和研究网络编程、并发控制及代理技术测试使用。请勿用于非法用途。开发者不对因使用本软件产生的任何数据丢失或网络问题负责。
 
 ---
+
 
 Copyright © 2025. All Rights Reserved.
