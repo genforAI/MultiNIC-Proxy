@@ -6,6 +6,10 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 
 与传统的“网卡绑定”软件不同，NetBouncer 不需要安装任何虚拟驱动，无需修改系统底层路由，纯应用层实现，即插即用。
 
+基础下载过程中，存在显式下载和隐式下载两部分，下载器显示为显式下载部分
+
+具体部分可在程序中依照测试需求进行修改
+
 ---
 
 ## ✨ 核心特性 (Key Features)
@@ -56,8 +60,34 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 * 硬件：拥有至少两个可用的网络接口（且已连接互联网）
 
 ### 1. 下载与运行
-下载最新版本的 `NetBouncer.exe`，直接双击运行。
+* 下载最新版本的 `NetBouncer.exe`，直接双击运行。
 
-```bash
-# 或者通过命令行运行以查看详细日志
-./NetBouncer.exe
+### 2. 证书配置
+* 首次运行时，程序会自动在当前目录生成 certs 文件夹，并尝试将 CA 证书安装到当前用户的信任列表中。
+* 如果自动安装成功，无需操作。
+* 如果失败，请手动双击 certs/rootCA.crt 安装到“受信任的根证书颁发机构”。
+* 
+### 3. 设置代理
+* 配置你的浏览器（Chrome/Edge）或下载软件（IDM）的代理服务器设置：
+* 协议: HTTP / HTTPS
+* 地址: 127.0.0.1
+* 端口: 10808 (默认)
+
+--- 
+
+## ⚠️ 注意事项 (Notes)
+* USB 网卡休眠问题：如果你使用外置 USB 网卡，请在设备管理器中关闭“允许计算机关闭此设备以节约电源”选项，否则高并发下载时可能会出现 i/o timeout。
+* HTTPS 警告：由于使用了自签名 CA 进行流量加速，初次访问 HTTPS 网站时浏览器可能会提示安全警告，请确保根证书已正确信任。
+
+## 🛠️ 技术栈 (Tech Stack)
+* Language: Golang 1.23+
+* Network: net/http, golang.org/x/net/http2
+* Concurrency: sync/atomic, Goroutines, Channels
+* Crypto: crypto/tls, crypto/x509
+
+## 📝 免责声明 (Disclaimer)
+* 本项目仅供学习和研究网络编程、并发控制及代理技术测试使用。请勿用于非法用途。开发者不对因使用本软件产生的任何数据丢失或网络问题负责。
+
+---
+
+Copyright © 2025. All Rights Reserved.
