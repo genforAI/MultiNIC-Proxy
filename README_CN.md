@@ -45,7 +45,7 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
   <tr>
     <td width="50%">
       <div align="center"><b>1. 单网卡原始下载</b></div>
-      <img src="https://github.com/user-attachments/assets/06967c8b-5c74-42a6-a7de-bcd0b8b266a9" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/6d27675f-25a1-441e-8db2-7b7dd44d61eb" width="100%"/>
     </td>
     <td width="50%">
       <div align="center"><b>2. 单网卡代理策略下载</b></div>
@@ -55,7 +55,7 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
   <tr>
     <td width="50%">
       <div align="center"><b>3. 多网卡原始下载</b></div>
-      <img src="https://github.com/user-attachments/assets/6d27675f-25a1-441e-8db2-7b7dd44d61eb" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/06967c8b-5c74-42a6-a7de-bcd0b8b266a9" width="100%"/>
     </td>
     <td width="50%">
       <div align="center"><b>4. 多网卡代理策略下载</b></div>
@@ -121,6 +121,7 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 
 
 Copyright © 2025. All Rights Reserved.
+
 
 
 
