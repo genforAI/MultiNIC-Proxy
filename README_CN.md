@@ -1,4 +1,4 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/genforai/multinic-proxy)](https://goreportcard.com/report/github.com/genforai/multinic-proxy)
+![WithMonitor-multicard](https://github.com/user-attachments/assets/e1619193-7189-4cd9-a083-1636fd521d86)[![Go Report Card](https://goreportcard.com/badge/github.com/genforai/multinic-proxy)](https://goreportcard.com/report/github.com/genforai/multinic-proxy)
 
 [🇺🇸 English](./README.md)
 # NetBouncer (Multi-NIC High-Performance Proxy)
@@ -10,6 +10,8 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 与传统的“网卡绑定”软件不同，NetBouncer 不需要安装任何虚拟驱动，无需修改系统底层路由，纯应用层实现，即插即用。
 
 > **💡 说明**：程序控制台会实时显示总流量监控。下载器客户端显示的部分为“显式下载”速度，代理层内部可能存在缓冲等“隐式下载”处理，具体参数可在源代码中根据测试需求进行调整。
+
+** 演示示例：
 
 ---
 
@@ -35,6 +37,32 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 * **🛠️ 轻量级与便携**
     * 单文件运行（Go Static Build），无第三方依赖。
     * 无需管理员权限即可运行（证书安装除外），不修改系统注册表或驱动。
+
+---
+
+<h2>🎥 效果演示 (Demos)</h2>
+<table>
+  <tr>
+    <td width="50%">
+      <div align="center"><b>1. 单网卡原始下载</b></div>
+      <img src="[Original-SingleCard](https://github.com/user-attachments/assets/06967c8b-5c74-42a6-a7de-bcd0b8b266a9)" width="100%"/>
+    </td>
+    <td width="50%">
+      <div align="center"><b>2. 单网卡代理策略下载</b></div>
+      <img src="[WithMonitor-singleCard](https://github.com/user-attachments/assets/06967c8b-5c74-42a6-a7de-bcd0b8b266a9)" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <div align="center"><b>3. 多网卡原始下载</b></div>
+      <img src="[Original-multicard](https://github.com/user-attachments/assets/6d27675f-25a1-441e-8db2-7b7dd44d61eb)" width="100%"/>
+    </td>
+    <td width="50%">
+      <div align="center"><b>4. 多网卡代理策略下载</b></div>
+      <img src="[WithMonitor-multicard](https://github.com/user-attachments/assets/98cafaea-4613-473a-aff8-23a190d7d163)" width="100%"/>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -93,4 +121,5 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 
 
 Copyright © 2025. All Rights Reserved.
+
 
