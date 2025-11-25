@@ -129,58 +129,58 @@ func TestParseContentRangeTotal(t *testing.T) {
 	tests := []struct {
 		name          string
 		input         string
-		expectPartSz  int64
-		expectTotalSz int64
+		expectTotalSz int64 // 总文件大小
+		expectRangeSz int64 // 范围字节数
 		expectOk      bool
 	}{
 		{
 			name:          "Valid range with total",
 			input:         "bytes 0-999/10000",
-			expectPartSz:  10000,
-			expectTotalSz: 1000,
+			expectTotalSz: 10000,
+			expectRangeSz: 1000,
 			expectOk:      true,
 		},
 		{
 			name:          "Valid range with unknown total",
 			input:         "bytes 0-999/*",
-			expectPartSz:  -1,
-			expectTotalSz: 1000,
-			expectOk:      true, // parseContentRangeTotal returns true as long as part size is valid
+			expectTotalSz: -1,
+			expectRangeSz: 1000,
+			expectOk:      true,
 		},
 		{
 			name:          "416 style range",
 			input:         "bytes */10000",
-			expectPartSz:  -1,
-			expectTotalSz: 10000,
-			expectOk:      false, // This format doesn't have valid part size
+			expectTotalSz: -1,
+			expectRangeSz: 10000,
+			expectOk:      false, // This format doesn't have valid range part
 		},
 		{
 			name:          "Empty string",
 			input:         "",
-			expectPartSz:  -1,
 			expectTotalSz: -1,
+			expectRangeSz: -1,
 			expectOk:      false,
 		},
 		{
 			name:          "Large file range",
 			input:         "bytes 36700160-41943039/207322416",
-			expectPartSz:  207322416,
-			expectTotalSz: 5242880,
+			expectTotalSz: 207322416,
+			expectRangeSz: 5242880,
 			expectOk:      true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			partSz, totalSz, ok := parseContentRangeTotal(tt.input)
+			totalSz, rangeSz, ok := parseContentRangeTotal(tt.input)
 			if ok != tt.expectOk {
 				t.Errorf("expected ok=%v, got %v", tt.expectOk, ok)
 			}
-			if partSz != tt.expectPartSz {
-				t.Errorf("expected partSz=%d, got %d", tt.expectPartSz, partSz)
-			}
 			if totalSz != tt.expectTotalSz {
 				t.Errorf("expected totalSz=%d, got %d", tt.expectTotalSz, totalSz)
+			}
+			if rangeSz != tt.expectRangeSz {
+				t.Errorf("expected rangeSz=%d, got %d", tt.expectRangeSz, rangeSz)
 			}
 		})
 	}

@@ -49,7 +49,8 @@ func RespDeal(Header http.Header, StatusCode int) (ifChunks bool, fileSize int64
 
 // 统一解析 Content-Range 的 total：
 // 兼容 "bytes 0-0/207322416"（206）与 "bytes */207322416"（416）
-func parseContentRangeTotal(cr string) (partSize int64, totalSize int64, ok bool) {
+// 返回：总文件大小，实际范围字节数，是否解析成功
+func parseContentRangeTotal(cr string) (totalSize int64, rangeSize int64, ok bool) {
 	cr = strings.TrimSpace(cr) // 去掉空格换行
 	if cr == "" {
 		return -1, -1, false
