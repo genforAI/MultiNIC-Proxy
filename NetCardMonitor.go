@@ -113,7 +113,8 @@ func InitNetCardInfo() {
 	defer NetworkTester.mu.Unlock()
 	interfaces, err := net.Interfaces()
 	if err != nil {
-		fmt.Errorf("找不到网卡信息: %v", err)
+		fmt.Printf("找不到网卡信息: %v\n", err)
+		return
 	}
 	for _, ifaces := range interfaces {
 		if ifaces.Flags&net.FlagUp == 0 {
@@ -344,13 +345,17 @@ func (p *NetHTTPInfo) PeriodCheck(wg *sync.WaitGroup, MonitorCtx context.Context
 			if SpeedNetCard > lowSpeed/3 {
 				alpha = CheckInterval.Seconds() / (10 * time.Second).Seconds()
 				if StandardSpeed > SpeedNetCard {
-					x := (StandardSpeed-SpeedNetCard)/StandardSpeed - 1
-					updater = (math.Exp(x) - math.Exp(-1)) / (1 - math.Exp(-1))
-					StandardSpeed = StandardSpeed + (lowSpeed-StandardSpeed)*alpha*updater
+					if StandardSpeed > 0 {
+						x := (StandardSpeed-SpeedNetCard)/StandardSpeed - 1
+						updater = (math.Exp(x) - math.Exp(-1)) / (1 - math.Exp(-1))
+						StandardSpeed = StandardSpeed + (lowSpeed-StandardSpeed)*alpha*updater
+					}
 				} else {
-					x := (SpeedNetCard-StandardSpeed)/(HighSpeed-StandardSpeed) - 1
-					updater = (math.Exp(x) - math.Exp(-1)) / (1 - math.Exp(-1))
-					StandardSpeed = StandardSpeed + (HighSpeed-StandardSpeed)*alpha*updater
+					if HighSpeed > StandardSpeed {
+						x := (SpeedNetCard-StandardSpeed)/(HighSpeed-StandardSpeed) - 1
+						updater = (math.Exp(x) - math.Exp(-1)) / (1 - math.Exp(-1))
+						StandardSpeed = StandardSpeed + (HighSpeed-StandardSpeed)*alpha*updater
+					}
 				}
 			}
 			// 更新对应CardInfo内容
@@ -365,18 +370,39 @@ func (p *NetHTTPInfo) PeriodCheck(wg *sync.WaitGroup, MonitorCtx context.Context
 				Chunk1Speed:   Chunks1Sp,    // 实时 Chunk1 速度
 			})
 
-			// 计算Prob
+			// 计算Prob - 添加除零保护
 			var ProbeP float64
 			var Chunks0P float64
 			var Chunks1P float64
+
+			// 辅助函数用于安全计算概率
+			calcProb := func(base, speed, divisor float64) float64 {
+				if divisor == 0 {
+					return base // 如果除数为0，返回基础值
+				}
+				ratio := 1 - speed/divisor
+				return base * ratio * ratio
+			}
+
 			if StandardSpeed > SpeedNetCard {
-				ProbeP = (StandardSpeed) * (1 - ProbeSp/(StandardSpeed-Chunks0Sp-Chunks1Sp)) * (1 - ProbeSp/(StandardSpeed-Chunks0Sp-Chunks1Sp))
-				Chunks0P = (StandardSpeed) * (1 - Chunks0Sp/(StandardSpeed-Chunks1Sp-ProbeSp)) * (1 - Chunks0Sp/(StandardSpeed-Chunks1Sp-ProbeSp))
-				Chunks1P = (StandardSpeed) * (1 - Chunks1Sp/(StandardSpeed-ProbeSp-Chunks0Sp)) * (1 - Chunks1Sp/(StandardSpeed-ProbeSp-Chunks0Sp))
+				ProbeP = calcProb(StandardSpeed, ProbeSp, StandardSpeed-Chunks0Sp-Chunks1Sp)
+				Chunks0P = calcProb(StandardSpeed, Chunks0Sp, StandardSpeed-Chunks1Sp-ProbeSp)
+				Chunks1P = calcProb(StandardSpeed, Chunks1Sp, StandardSpeed-ProbeSp-Chunks0Sp)
 			} else {
-				ProbeP = (StandardSpeed) * (1 - ProbeSp/(SpeedNetCard-Chunks0Sp-Chunks1P)) * (1 - ProbeSp/(SpeedNetCard-Chunks0Sp-Chunks1P))
-				Chunks0P = (StandardSpeed) * (1 - Chunks0Sp/(SpeedNetCard-Chunks1P-ProbeSp)) * (1 - Chunks0Sp/(SpeedNetCard-Chunks1P-ProbeSp))
-				Chunks1P = (StandardSpeed) * (1 - Chunks1Sp/(SpeedNetCard-ProbeSp-Chunks0P)) * (1 - Chunks1Sp/(SpeedNetCard-ProbeSp-Chunks0P))
+				ProbeP = calcProb(StandardSpeed, ProbeSp, SpeedNetCard-Chunks0Sp-Chunks1Sp)
+				Chunks0P = calcProb(StandardSpeed, Chunks0Sp, SpeedNetCard-Chunks1Sp-ProbeSp)
+				Chunks1P = calcProb(StandardSpeed, Chunks1Sp, SpeedNetCard-ProbeSp-Chunks0Sp)
+			}
+
+			// 确保概率值非负
+			if ProbeP < 0 {
+				ProbeP = 0
+			}
+			if Chunks0P < 0 {
+				Chunks0P = 0
+			}
+			if Chunks1P < 0 {
+				Chunks1P = 0
 			}
 
 			// 构建snap

@@ -216,10 +216,12 @@ func (p *NetHTTPTest) SpeedTest(IP string) (outputBag TestOutput) {
 				return
 			}
 			resp, err := Client.Do(req)
-			defer resp.Body.Close()
 			if err != nil {
 				fmt.Printf("Client Resp Error: %v\n", err)
+				wg.Done()
+				return
 			}
+			defer resp.Body.Close()
 			buffer := make([]byte, 2*1024*1024)
 			for {
 				select {

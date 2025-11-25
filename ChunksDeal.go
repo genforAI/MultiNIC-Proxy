@@ -342,10 +342,13 @@ func DirectChunksWok(
 			NetCardClient.mu.RLock()
 			IP := task.ClientIP
 			ClientIndex := task.ClientIndex
-			client := NetCardClient.Content[IP].CommonClient[ClientIndex]
-			//if client != nil {
-			//	fmt.Printf("client: %+v\n", client)
-			//}
+			clientEntry := NetCardClient.Content[IP]
+			if clientEntry == nil || len(clientEntry.CommonClient) <= ClientIndex || clientEntry.CommonClient[ClientIndex] == nil {
+				NetCardClient.mu.RUnlock()
+				fmt.Printf("Client for IP %s, Index %d does not exist.\n", IP, ClientIndex)
+				return
+			}
+			client := clientEntry.CommonClient[ClientIndex]
 			NetCardClient.mu.RUnlock()
 
 			// 设置对应Req
@@ -360,9 +363,10 @@ func DirectChunksWok(
 			fmt.Printf("task: %+v\n", task)
 			// 发送指令
 			resp, err := client.Do(req)
-			//if resp != nil {
-			//	fmt.Printf("resp: %+v\n", resp)
-			//}
+			if err != nil {
+				fmt.Printf("client.Do error: %+v\n", err)
+				return
+			}
 			// 设置bufrw-Copy Writer
 			monitorWriter := &MonitorWriterChunks{
 				Writer:  bufrw,
@@ -404,10 +408,12 @@ func downloadOneChunk(ctx context.Context, targetURL string, task ChunkTask, Hea
 	IP := task.ClientIP
 	ClientIndex := task.ClientIndex
 	NetCardClient.mu.RLock()
-	client := NetCardClient.Content[IP].CommonClient[ClientIndex]
-	if client == nil {
-		fmt.Printf("Client no exist.")
+	clientEntry := NetCardClient.Content[IP]
+	if clientEntry == nil || len(clientEntry.CommonClient) <= ClientIndex || clientEntry.CommonClient[ClientIndex] == nil {
+		NetCardClient.mu.RUnlock()
+		return nil, fmt.Errorf("client for IP %s, Index %d does not exist", IP, ClientIndex)
 	}
+	client := clientEntry.CommonClient[ClientIndex]
 	NetCardClient.mu.RUnlock()
 
 	// 创建请求

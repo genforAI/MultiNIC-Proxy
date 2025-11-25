@@ -149,12 +149,17 @@ func (p *NetHTTPClient) ProbeFile(ctx context.Context, targetURL string, r *http
 	}
 	// 设置为对应probeClient
 	NetCardClient.mu.RLock()
-	client := NetCardClient.Content[IP].ProbeClient
+	clientEntry := NetCardClient.Content[IP]
+	if clientEntry == nil {
+		NetCardClient.mu.RUnlock()
+		fmt.Printf("Client entry for IP %s does not exist.\n", IP)
+		return fmt.Errorf("client entry for IP %s not found", IP)
+	}
+	client := clientEntry.ProbeClient
 	if client == nil {
-		fmt.Printf("Client no exist.")
-		return
-	} else {
-		//fmt.Printf("client exist: %+v \n", client)
+		NetCardClient.mu.RUnlock()
+		fmt.Printf("ProbeClient for IP %s is nil.\n", IP)
+		return fmt.Errorf("probe client for IP %s is nil", IP)
 	}
 	NetCardClient.mu.RUnlock()
 
