@@ -1,4 +1,5 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/genforai/multinic-proxy)](https://goreportcard.com/report/github.com/genforai/multinic-proxy)
+
 [🇺🇸 English](./README.md)
 # NetBouncer (Multi-NIC High-Performance Proxy)
 
@@ -120,6 +121,7 @@ NetBouncer 是一个高性能的本地 HTTP/2 代理服务器。它能够智能�
 
 
 Copyright © 2025. All Rights Reserved.
+
 
 
 
